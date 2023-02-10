@@ -13,7 +13,7 @@ namespace BlazorCookieAuthentication
     [ApiController]
     public class CookieController : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<ActionResult> Login([FromForm] string name)
         {
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(new List<Claim>
@@ -32,6 +32,13 @@ namespace BlazorCookieAuthentication
             };
 
             await HttpContext.SignInAsync(claims, authProperties);
+            return Redirect("/");
+        }
+
+        [HttpPost("logout")]
+        public async Task<ActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
             return Redirect("/");
         }
     }

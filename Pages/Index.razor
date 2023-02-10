@@ -1,25 +1,70 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authentication
 
 <AuthorizeView>
     <Authorized>
         <h1>Hello @context.User.Claims.First().Value</h1>
+
+        <a @onclick="logout">logout</a>
     </Authorized>
 </AuthorizeView>
 
-<form action="cookie" method="post">
+<form action="cookie/login" method="post">
     <input type="text" name="name" />
     <input type="submit" />
 </form>
 
+
 @code {
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
+    [Inject] public AuthenticationStateProvider auth_provider { get; set; }
+    [Inject] public Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor { get; set; }
+    [Inject] public NavigationManager nav { get; set; }
+    [Inject] IJSRuntime js { get; set; }
+    //[Inject] IHttpClientFactory ClientFactory { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        //type 1
         var state = await authenticationStateTask;
         if (state.User.Identity.IsAuthenticated)
         {
             var name = state.User.Identity.Name;
         }
+
+        //type 2
+        var auth_state = await auth_provider.GetAuthenticationStateAsync();
+
+
+        var u = httpContextAccessor.HttpContext.User;
+        //httpContextAccessor.HttpContext.Request.Cookies.
+
+    }
+
+    private async Task logout()
+    {
+
+        var rrr = await js.InvokeAsync<IJSObjectReference>("document.getElementById", "frm_logout");
+        await rrr.InvokeVoidAsync("submit");
+        await rrr.DisposeAsync();
+        //var token = httpContextAccessor.HttpContext.Request.Cookies["access_token"];
+        //using var httpClient = new HttpClient()
+        //    {
+        //        BaseAddress = new Uri(nav.BaseUri),
+        //    };
+        //httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        //await httpClient.PostAsync("cookie/logout", null);
+
+        //await httpContextAccessor.HttpContext.SignOutAsync();
+        //await InvokeAsync(StateHasChanged);
+
+
+
+        //var token = httpContextAccessor.HttpContext.Request.Cookies["access_token"];
+        //httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        //var accessories = await httpClient.GetFromJsonAsync<AccessoryDto[]>("api/accessory");
+        //return accessories;
     }
 }
