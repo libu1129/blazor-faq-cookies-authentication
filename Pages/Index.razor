@@ -9,4 +9,17 @@
 <form action="cookie" method="post">
     <input type="text" name="name" />
     <input type="submit" />
-</form> 
+</form>
+
+@code {
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await authenticationStateTask;
+        if (state.User.Identity.IsAuthenticated)
+        {
+            var name = state.User.Identity.Name;
+        }
+    }
+}
