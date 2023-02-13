@@ -1,6 +1,6 @@
 # Blazor faq cookies authentication
 
-This sample explains that how to authenticate faq cookies for Blazor.
+This sample explains that how to authenticate faq cookies for Blazor serverside.
 
 ## Prerequisites
 
@@ -8,7 +8,30 @@ Visual Studio 2022
 
 ## How to run this application?
 
-* Checkout this project to a location in your disk.
-* Open the solution file using the Visual Studio 2022.
-* Restore the NuGet packages by rebuilding the solution.
-* Run the project.
+
+CookieController.cs 구현
+
+Startup.cs
+    //서비스 등록
+    services.AddAuthentication("Cookies").AddCookie();
+    services.AddHttpContextAccessor();
+    
+    //순서에 맞게 입력
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+    app.UseAuthentication();
+
+    app.UseRouting();
+    app.UseAuthorization();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage("/_Host");
+    });
+
+App.razor
+    <CascadingAuthenticationState> 로 전체 감싸기
+
+    <form id="frm_logout"> 부분 입력
