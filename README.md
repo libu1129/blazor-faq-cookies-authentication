@@ -11,6 +11,13 @@ Visual Studio 2022
 
 CookieController.cs 구현
 
+_Host.cshtml
+    자바스트립트 넣기
+    
+App.razor
+    <CascadingAuthenticationState> 로 전체 감싸기
+    <AuthorizeView> 부분 입력
+
 Startup.cs
     //서비스 등록
     services.AddAuthentication("Cookies").AddCookie();
@@ -30,8 +37,3 @@ Startup.cs
         endpoints.MapBlazorHub();
         endpoints.MapFallbackToPage("/_Host");
     });
-
-App.razor
-    <CascadingAuthenticationState> 로 전체 감싸기
-
-    <form id="frm_logout"> 부분 입력

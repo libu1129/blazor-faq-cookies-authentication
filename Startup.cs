@@ -30,6 +30,8 @@ namespace BlazorCookieAuthentication
 
             services.AddAuthentication("Cookies").AddCookie();
             services.AddHttpContextAccessor();
+
+            services.AddScoped<ClientService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

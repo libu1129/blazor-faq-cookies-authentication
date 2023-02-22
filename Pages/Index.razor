@@ -15,6 +15,9 @@
 </form>
 
 
+<a class="btn btn-primary" @onclick="login">login</a>
+
+
 @code {
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
@@ -22,6 +25,7 @@
     [Inject] public Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor { get; set; }
     [Inject] public NavigationManager nav { get; set; }
     [Inject] IJSRuntime js { get; set; }
+    [Inject] ClientService client { get; set; }
     //[Inject] IHttpClientFactory ClientFactory { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -40,6 +44,17 @@
         var u = httpContextAccessor.HttpContext.User?.Identity.IsAuthenticated;
         //httpContextAccessor.HttpContext.Request.Cookies.
 
+    }
+
+
+    private async Task login()
+    {
+        await login("iddes", "12345");
+    }
+
+    private async Task login(string id, string pass)
+    {
+        await client.login(id, pass);
     }
 
     private async Task logout()

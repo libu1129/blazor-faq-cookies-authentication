@@ -31,5 +31,13 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+
+    @*js로 인풋필드 채우기 위해*@
+    <script type="text/javascript">
+        function setValue(inputFieldId, userInput) {
+            var inputField = document.getElementById(inputFieldId);
+            inputField.value = userInput;
+        }
+    </script>
 </body>
 </html>

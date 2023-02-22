@@ -11,6 +11,14 @@
     </Router>
 
     <AuthorizeView>
-        <form id="frm_logout" action="cookie/logout" method="post" style="display:none;"></form>
+        <Authorized>
+            <form id="frm_logout" action="cookie/logout" method="post" style="display:none;"></form>
+        </Authorized>
+        <NotAuthorized>
+            <form id="frm_login" action="cookie/login" method="post" style="display:none;">
+                <input id="frm_login_sessionid" type="text" name="session_id" />
+            </form>
+        </NotAuthorized>
     </AuthorizeView>
+
 </CascadingAuthenticationState>
